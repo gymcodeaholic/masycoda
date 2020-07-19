@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Multifront_ElasticSearchModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="Multifront_ElasticSearchEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="UserDetails" EntityType="Multifront_ElasticSearchModel.UserDetail" />
+    <EntitySet Name="UserSalaries" EntityType="Multifront_ElasticSearchModel.UserSalary" />
+    <AssociationSet Name="FK_UserSalary_UserDetails" Association="Multifront_ElasticSearchModel.FK_UserSalary_UserDetails">
+      <End Role="UserDetail" EntitySet="UserDetails" />
+      <End Role="UserSalary" EntitySet="UserSalaries" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="UserDetail">
+    <Key>
+      <PropertyRef Name="UserCode" />
+    </Key>
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Age" Type="Int32" Nullable="false" />
+    <Property Name="Position" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UserCode" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="UserSalaries" Relationship="Multifront_ElasticSearchModel.FK_UserSalary_UserDetails" FromRole="UserDetail" ToRole="UserSalary" />
+  </EntityType>
+  <EntityType Name="UserSalary">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="UserCode" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Salary" Type="Int32" />
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="UserDetail" Relationship="Multifront_ElasticSearchModel.FK_UserSalary_UserDetails" FromRole="UserSalary" ToRole="UserDetail" />
+  </EntityType>
+  <Association Name="FK_UserSalary_UserDetails">
+    <End Type="Multifront_ElasticSearchModel.UserDetail" Role="UserDetail" Multiplicity="1" />
+    <End Type="Multifront_ElasticSearchModel.UserSalary" Role="UserSalary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserDetail">
+        <PropertyRef Name="UserCode" />
+      </Principal>
+      <Dependent Role="UserSalary">
+        <PropertyRef Name="UserCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

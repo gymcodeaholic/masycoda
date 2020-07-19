@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Multifront_ElasticSearchModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="UserDetails">
+    <Key>
+      <PropertyRef Name="UserCode" />
+    </Key>
+    <Property Name="UserName" Type="varchar(max)" Nullable="false" />
+    <Property Name="Age" Type="int" Nullable="false" />
+    <Property Name="Position" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserCode" Type="nchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserSalary">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="UserCode" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Salary" Type="int" />
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_UserSalary_UserDetails">
+    <End Role="UserDetails" Type="Self.UserDetails" Multiplicity="1" />
+    <End Role="UserSalary" Type="Self.UserSalary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserDetails">
+        <PropertyRef Name="UserCode" />
+      </Principal>
+      <Dependent Role="UserSalary">
+        <PropertyRef Name="UserCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Multifront_ElasticSearchModelStoreContainer">
+    <EntitySet Name="UserDetails" EntityType="Self.UserDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserSalary" EntityType="Self.UserSalary" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_UserSalary_UserDetails" Association="Self.FK_UserSalary_UserDetails">
+      <End Role="UserDetails" EntitySet="UserDetails" />
+      <End Role="UserSalary" EntitySet="UserSalary" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
